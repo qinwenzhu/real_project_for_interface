@@ -5,36 +5,27 @@
 # @Software: PyCharm
 
 import unittest
-import requests
-from guard.tools.path import SharePath
-from utils.handle_config_yaml import HandleConfigYaml
+from guard.apis.api_floor import Floor
+from guard.datas.floor_data import FloorData
 
 
 class TestFloor(unittest.TestCase):
 
-    # 读取yaml配置文件
-    base_config = HandleConfigYaml(r"{}/env.yaml".format(SharePath.CONFIG_FOLDER)).config
+    def test_add_floor_1(self):
+        # 定义全局变量，进行参数复用
+        global add_res
 
-    @classmethod
-    def setUpClass(cls):
-        cls.response_data = requests.request(method=cls.base_config["env"]["method"],
-                                             url=r"http://{}/{}".format(cls.base_config["env"]["ip"], cls.base_config["env"]["login"]),
-                                             json={"username": cls.base_config["env"]["username"], "password": cls.base_config["env"]["password"]})
-        cls.cookies = {"cookies": cls.response_data.json()["accessToken"]}
-
-    @classmethod
-    def tearDownClass(cls):
-        requests.request(method=cls.base_config["env"]["method"],
-                         url=r"http://{}/{}".format(cls.base_config["env"]["ip"], cls.base_config["env"]["login_out"]),
-                         cookies=cls.cookies)
-
-    def test_add_floor(self):
         # 测试添加地图层级分组
-        pass
+        add_res = Floor().add_floor_group()
+        # 断言
+        self.assertEqual(FloorData().add_floor_group["expect"], add_res.status_code)
 
-    def test_delete_floor(self):
+    def test_delete_floor_2(self):
+
         # 测试删除地图层级分组
-        pass
+        del_res = Floor().del_floor_group(add_res.json()["floorId"])
+        # 断言
+        self.assertEqual(FloorData().del_floor_group["expect"], del_res.status_code)
 
 
 if __name__ == '__main__':

@@ -34,6 +34,18 @@ class Floor:
         print(f"返回响应结果：{res.json()}")
         return res
 
+    def update_floor_group(self, floor_id, name):
+        # 读取修改地图层级的data
+        update_floor = FloorData().update_floor_group
+
+        url = f'http://{self.base_config["env"]["ip"]}/{update_floor["api"]}'
+        update_floor["data"]["floorId"] = floor_id
+        update_floor["data"]["name"] = "U"+name
+        res = requests.request(method=update_floor["method"], url=url, json=update_floor["data"],
+                               cookies=self.cookies)
+        print(f"返回响应结果：{res.json()}")
+        return res
+
     # 删除地图分组
     def del_floor_group(self, floor_id):
         # 读取删除地图层级的data
@@ -47,5 +59,4 @@ class Floor:
 
 
 if __name__ == '__main__':
-    # Floor().add_floor_group()
-    Floor().del_floor_group()
+    Floor().add_floor_group()

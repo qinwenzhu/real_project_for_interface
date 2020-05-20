@@ -19,6 +19,11 @@ class FloorData:
                        "data": {"name": f"FLN-{uuid4_data()}", "parentId": "", "remark": "从根目录创建同级地图层级"},
                        "expect": 200}
 
+    # 地图管理 - 修改地图层级
+    update_floor_group = {"api": "senseguard-map-management/api/v1/floor", "method": "put",
+                       "data": {"floorId": "", "name": "", "remark": "修改地图层级"},
+                       "expect": 200}
+
     # 地图管理 - 删除地图层级
     floor_id = 1    # 设置默认值为1，实际调用的时候进行字符串的替换
     state = 0       # state默认状态为0，强制删除需要设置state的值为1

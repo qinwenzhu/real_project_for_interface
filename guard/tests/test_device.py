@@ -19,7 +19,7 @@ class TestDevice(unittest.TestCase):
         # 断言
         self.assertEqual(DeviceData().add_device_group["expect"], add_res.status_code)
 
-    def test_3delete_device(self):
+    def test_2delete_device(self):
 
         # 测试删除地图层级分组
         del_res = Device().del_device_group(add_res.json()["groupId"])

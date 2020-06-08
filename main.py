@@ -5,34 +5,49 @@
 # @Software: PyCharm
 
 import unittest
+from utils.HTMLTestRunnerNew import HTMLTestRunner
 
+# 导入需要加入到测试套件中的测试模块
 from guard.tests import test_device
-from guard.tests import test_login
-from guard.tests import test_floor
-# 导入第三方插件   HTMLTestRunner
+# 导入需要加入到测试套件中的测试用例类
+from guard.tests.test_device import TestDevice
 
 
-# 创建测试套件
-my_suite = unittest.TestSuite()
+# TODO 方式一： 加载指定的测试模块并执行
+# # 1. 创建测试套件
+# my_suite = unittest.TestSuite()
+# # 2. 创建测试用例加载器
+# load_case = unittest.TestLoader()
+# # 通过X.py文件为单位添加测试用例
+# my_suite.addTest(load_case.loadTestsFromModule(device_demo))
+# # 3. 创建测试运行器
+# run_case = unittest.TextTestRunner()
+# run_case.run(my_suite)
 
-# 加载测试类
-load_case = unittest.TestLoader()
-# load_case.loadTestsFromModule(test_device)
-# 将加载完成的目标测试用例module放进测试套件内
-# 将单个需要执行的测试模块添加到测试套件中
-my_suite.addTest(load_case.loadTestsFromModule(test_device))
-# case = loader.discover("guard/tests")
-
-# 一次性加载测试用例列表到测试套件中
-# cases = [test_device, test_login, test_floor]
+# TODO 方式二： 加载指定的测试用例名并执行，也可以以列表传入多个测试用例名
+# # 1. 创建测试套件
+# my_suite = unittest.TestSuite()
+#
+# # 2. 创建测试用例加载器
+# load_case = unittest.TestLoader()
+# # 通过X.py文件为单位添加测试用例
+# # my_suite.addTest(TestDevice('test_1add_device'))
+# cases = [TestDevice('test_1add_device'), TestDevice('test_2delete_device')]
 # my_suite.addTests(cases)
+#
+# # 3. 创建测试运行器
+# run_case = unittest.TextTestRunner()
+# run_case.run(my_suite)
 
-# 创建测试运行
-run_case = unittest.TextTestRunner()
-run_case.run(my_suite)
+# TODO 方式三： 实际项目常用的用例加载方式
+# 1. 直接调用unittest中的默认用例加载方式，一次性加载所有以 test*.py 的测试用例
+# my_suite = unittest.defaultTestLoader.discover(start_dir="guard/tests/")
+# # 2. 创建测试运行器
+# run_case = unittest.TextTestRunner()
+# run_case.run(my_suite)
 
-# 生成测试报告
-# HTMLTestRunner
-
-# if __name__ == '__main__':
-#     unittest.main()
+# TODO 实际工作中：加载所有测试用例并生成HTML格式的测试报告
+my_suite = unittest.defaultTestLoader.discover(start_dir="guard/tests/")
+with open("report.html", mode="wb") as file:
+    run_case = HTMLTestRunner(stream=file, title="guard接口api测试报告",description="针对V2.1标准版的api", tester="zhuwenqin")
+    run_case.run(my_suite)

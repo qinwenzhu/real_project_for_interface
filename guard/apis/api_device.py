@@ -19,8 +19,10 @@ class Device:
 
     # 读取yaml，当前运行环境的相关配置文件
     base_config = HandleConfigYaml(r"{}/env.yaml".format(SharePath.CONFIG_FOLDER)).config
-    # 先调用登录接口，获取响应值中返回的cookies
-    cookies = Login().login()
+
+    def __init__(self):
+        # 先调用登录接口，获取响应值中返回的cookies
+        self.cookies = Login().login()
 
     # 添加设备层级分组
     def add_device_group(self):
@@ -28,8 +30,7 @@ class Device:
         add_device = DeviceData().add_device_group
 
         url = f'http://{self.base_config["env"]["ip"]}/{add_device["api"]}'
-        res = requests.request(method=add_device["method"], url=url, json=add_device["data"],
-                               cookies=self.cookies)
+        res = requests.request(method=add_device["method"], url=url, json=add_device["data"], cookies=self.cookies)
         print(f"返回响应结果：{res.json()}")
         return res
 

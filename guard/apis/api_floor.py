@@ -20,8 +20,10 @@ class Floor:
 
     # 读取yaml，当前运行环境的相关配置文件
     base_config = HandleConfigYaml(r"{}/env.yaml".format(SharePath.CONFIG_FOLDER)).config
-    # 先调用登录接口，获取响应值中返回的cookies
-    cookies = Login().login()
+
+    def __init__(self):
+        # 先调用登录接口，获取响应值中返回的cookies
+        self.cookies = Login().login()
 
     # 创建地图分组
     def add_floor_group(self):

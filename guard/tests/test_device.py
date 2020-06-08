@@ -8,7 +8,7 @@ from guard.apis.api_device import Device
 from guard.datas.device_data import DeviceData
 
 
-class TestFloor(unittest.TestCase):
+class TestDevice(unittest.TestCase):
 
     def test_1add_device(self):
         # 定义全局变量，进行参数复用

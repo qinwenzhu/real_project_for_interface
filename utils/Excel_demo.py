@@ -125,3 +125,8 @@ import openpyxl
 # a = dict(zip(('id', 'title', 'value', 'except', 'actual', 'assert_result'), (1, 2, 3, 4, 5, 6)))
 # print(a)
 # lambda x, y: [x, y], case_til, data
+
+
+result = dict(map(lambda x, y: (x, y), (1, 2), (3, 4)))
+print(result)
+
